@@ -25,13 +25,13 @@ protected:
 
 	virtual void Tick(float DeltaTime) override;
 
-	//virtual void OnPossess(APawn* pawn) override;
-
-	UPROPERTY(EditDefaultsOnly, Category = "AI")
-		class UBlackboardComponent* BBoard;
+	virtual void OnPossess(APawn* pawn) override;
 
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 		class UBehaviorTree* BTree;
+
+	UPROPERTY(EditDefaultsOnly, Category = "AI")
+		class UBlackboardComponent* BBoard;
 
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 		class UBehaviorTreeComponent* BTreeComp;

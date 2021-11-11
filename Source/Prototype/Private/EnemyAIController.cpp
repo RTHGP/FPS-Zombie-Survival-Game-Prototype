@@ -40,14 +40,14 @@ void AEnemyAIController::Tick(float DeltaTime)
 	MoveToPlayer();
 }
 
-//void AEnemyAIController::OnPossess(APawn* pawn)
-//{	
-//	Super::OnPossess(pawn);
-//	if (Blackboard)
-//	{
-//		Blackboard->InitializeBlackboard(*BTree->BlackboardAsset);
-//	}
-//}
+void AEnemyAIController::OnPossess(APawn* pawn)
+{	
+	Super::OnPossess(pawn);
+	if (Blackboard)
+	{
+		Blackboard->InitializeBlackboard(*BTree->BlackboardAsset);
+	}
+}
 
 void AEnemyAIController::MoveToPlayer()
 {	
