@@ -21,8 +21,11 @@ AEnemyAIController::AEnemyAIController()
 void AEnemyAIController::BeginPlay()
 {
 	Super::BeginPlay();
-	RunBehaviorTree(BTree);
-	BTreeComp->StartTree(*BTree);
+	if (BTree)
+	{
+		RunBehaviorTree(BTree);
+		BTreeComp->StartTree(*BTree);
+	}
 	bFindAngle = true;
 	bIsJumped = false;
 }
@@ -37,14 +40,14 @@ void AEnemyAIController::Tick(float DeltaTime)
 	MoveToPlayer();
 }
 
-void AEnemyAIController::OnPossess(APawn* pawn)
-{
-	Super::OnPossess(pawn);
-	if (Blackboard)
-	{
-		Blackboard->InitializeBlackboard(*BTree->BlackboardAsset);
-	}
-}
+//void AEnemyAIController::OnPossess(APawn* pawn)
+//{	
+//	Super::OnPossess(pawn);
+//	if (Blackboard)
+//	{
+//		Blackboard->InitializeBlackboard(*BTree->BlackboardAsset);
+//	}
+//}
 
 void AEnemyAIController::MoveToPlayer()
 {	
@@ -55,7 +58,7 @@ void AEnemyAIController::MoveToPlayer()
 		FVector EnemyPosition = Enemy->GetActorLocation();
 		FVector PlayerPosition = MainPlayer->GetActorLocation();
 		
-		if (Enemy->bIsStuck) // M1
+		if (Enemy->bIsStuck) 
 		{	
 			if (bFindAngle)
 			{	

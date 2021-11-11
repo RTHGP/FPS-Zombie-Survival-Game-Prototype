@@ -25,7 +25,7 @@ protected:
 
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void OnPossess(APawn* pawn) override;
+	//virtual void OnPossess(APawn* pawn) override;
 
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 		class UBlackboardComponent* BBoard;
