@@ -4,13 +4,13 @@
 #include "FindRandomLocation.h"
 #include "BehaviorTree/Blackboard/BlackboardKeyType_Vector.h"
 #include "BehaviorTree/Blackboard/BlackboardKeyType.h"
-#include "BehaviorTree/BehaviorTreeComponent.h"
-#include "UObject/UObjectGlobals.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "EnemyAIController.h"
 
-UFindRandomLocation::UFindRandomLocation(FObjectInitializer const& object_initializer)
+UFindRandomLocation::UFindRandomLocation()
 {
-	SearchRadius = 2000.f;
+	NodeName = TEXT("FindRandomLocation");
+	SearchRadius = 3000.f;
 }
 
 
@@ -19,12 +19,13 @@ EBTNodeResult::Type UFindRandomLocation::ExecuteTask(UBehaviorTreeComponent& own
 	auto const cont = Cast<AEnemyAIController>(owner_comp.GetAIOwner());
 	auto const enemyPawn = cont->GetPawn();
 
-	float X = FMath::RandRange(-1, 1);
-	float Y = FMath::RandRange(-1, 1);
+	float X = FMath::RandRange(-SearchRadius, SearchRadius);
+	float Y = FMath::RandRange(-SearchRadius, SearchRadius);
 
-	FVector NewLoc = FVector(X, Y, 0) * SearchRadius;
+	FVector NewLoc = enemyPawn->GetActorLocation() + FVector(X, Y, 0);
 
-	//continue
-
-	return EBTNodeResult::Type();
+	cont->GetBlackboardComponent()->SetValueAsVector(TEXT("NewLocation"), NewLoc);
+	
+	FinishLatentTask(owner_comp, EBTNodeResult::Succeeded);
+	return EBTNodeResult::Succeeded;
 }

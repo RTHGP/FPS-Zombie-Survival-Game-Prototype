@@ -19,6 +19,8 @@ class PROTOTYPE_API AEnemyAIController : public AAIController
 public:
 	AEnemyAIController();
 
+	void MoveToLocation(FVector Location);
+
 protected:
 
 	virtual void BeginPlay() override;

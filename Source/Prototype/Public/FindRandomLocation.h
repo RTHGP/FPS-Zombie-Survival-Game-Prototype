@@ -20,7 +20,7 @@ class PROTOTYPE_API UFindRandomLocation : public UBTTask_BlackboardBase
 
 public:
 
-	UFindRandomLocation(FObjectInitializer const& object_initializer);
+	UFindRandomLocation();
 
 	EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& owner_comp, uint8* node_memory);
 

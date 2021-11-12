@@ -18,6 +18,15 @@ AEnemyAIController::AEnemyAIController()
 	BTreeComp = CreateDefaultSubobject<UBehaviorTreeComponent>(TEXT("BehaviorTreeComp"));
 }
 
+void AEnemyAIController::MoveToLocation(FVector Location)
+{
+	FVector direction = Location - Enemy->GetActorLocation();
+	direction.Normalize();
+
+	if (Enemy->GetActorLocation() != Location)
+	Enemy->AddActorWorldOffset(direction * Enemy->GetMoveSpeed() * DeltaSeconds);
+}
+
 void AEnemyAIController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -34,13 +43,13 @@ void AEnemyAIController::BeginPlay()
 void AEnemyAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	DeltaSeconds += DeltaTime;
+	DeltaSeconds = DeltaTime;
 	
-	if (Enemy->bFoundPlayer)
+	/*if (Enemy->bFoundPlayer)
 	{
 		Enemy->FollowPlayerTime += DeltaTime;
 		MoveToPlayer();
-	}
+	}*/
 }
 
 void AEnemyAIController::OnPossess(APawn* pawn)
