@@ -28,16 +28,19 @@ void AEnemyAIController::BeginPlay()
 	}
 	bFindAngle = true;
 	bIsJumped = false;
+
 }
 
 void AEnemyAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	DeltaSeconds += DeltaTime;
-	/*Delay += DeltaTime;
-
-	if(Delay >1.f)
-	MoveToPlayer();*/
+	
+	if (Enemy->bFoundPlayer)
+	{
+		Enemy->FollowPlayerTime += DeltaTime;
+		MoveToPlayer();
+	}
 }
 
 void AEnemyAIController::OnPossess(APawn* pawn)
@@ -47,11 +50,13 @@ void AEnemyAIController::OnPossess(APawn* pawn)
 	{
 		Blackboard->InitializeBlackboard(*BTree->BlackboardAsset);
 	}
+	Enemy = Cast<AEnemy>(GetPawn());
+	if (Enemy)
+		UE_LOG(LogTemp, Warning, TEXT("ENemy Work!"));
 }
 
 void AEnemyAIController::MoveToPlayer()
 {	
-	AEnemy* Enemy = Cast<AEnemy>(GetPawn());
 	ASPlayer* MainPlayer = Cast<ASPlayer>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	if (Enemy && MainPlayer)
 	{	
@@ -66,7 +71,6 @@ void AEnemyAIController::MoveToPlayer()
 				DeltaSeconds = 0.f;
 				Direction = PlayerPosition - EnemyPosition;
 				auto Angle = FVector::DotProduct(Direction, LocalRightVector);
-				//UE_LOG(LogTemp, Warning, TEXT("%f"), Angle);
 				if (Angle >= 0.f)
 				{
 					Direction = LocalRightVector;

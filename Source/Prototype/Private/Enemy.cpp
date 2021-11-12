@@ -5,8 +5,8 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/SphereComponent.h"
 #include "HealthDamageComponent.h"
-#include "SPlayer.h"
 #include "DrawDebugHelpers.h"
+#include "SPlayer.h"
 
 // Sets default values
 AEnemy::AEnemy()
@@ -20,7 +20,7 @@ AEnemy::AEnemy()
 	SphereComp->SetSphereRadius(100.f);
 	SphereComp2 = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp2"));
 	SphereComp2->SetupAttachment(MeshComp);
-	SphereComp2->SetSphereRadius(1000.f);
+	SphereComp2->SetSphereRadius(5000.f);
 	HDComp = CreateDefaultSubobject<UHealthDamageComponent>(TEXT("HDComp"));
 
 
@@ -33,8 +33,12 @@ void AEnemy::BeginPlay()
 	HDComp->Health = Health;
 	bIsNearPlayer = false;
 	bIsStuck = false;
+	bFoundPlayer = false;
 	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::BeginOverlap);
 	SphereComp->OnComponentEndOverlap.AddDynamic(this, &AEnemy::EndOverlap);
+
+	SphereComp2->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::BeginOverlap2);
+	SphereComp2->OnComponentEndOverlap.AddDynamic(this, &AEnemy::EndOverlap2);
 }
 
 // Called every frame
@@ -90,7 +94,6 @@ void AEnemy::BeginOverlap(class UPrimitiveComponent* HitComp, class AActor* Othe
 	}
 	else
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("%s"), *OtherActor->GetName());
 		bIsStuck = true;
 	}
 }
@@ -99,4 +102,22 @@ void AEnemy::EndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 {
 	if (bIsNearPlayer)
 		bIsNearPlayer = false;
+}
+
+void AEnemy::BeginOverlap2(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	auto MainPlayer = Cast<ASPlayer>(OtherActor);
+	if (MainPlayer)
+	{
+		bFoundPlayer = true;
+	}
+}
+
+void AEnemy::EndOverlap2(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{	
+	if (FollowPlayerTime >= 5.f)
+	{
+		bFoundPlayer = false;
+		FollowPlayerTime = 0.f;
+	}
 }

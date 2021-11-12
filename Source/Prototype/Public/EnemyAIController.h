@@ -42,11 +42,11 @@ private:
 
 	float DeltaSeconds;
 	
-	float Delay;
-	
 	bool bFindAngle;
 
 	bool bIsJumped; // remove
+
+	AEnemy* Enemy;
 
 	FVector Direction;
 };
