@@ -19,6 +19,8 @@ class PROTOTYPE_API AEnemyAIController : public AAIController
 public:
 	AEnemyAIController();
 
+	bool bMTLTaskCompleted = true;
+
 	void MoveToLocation(FVector Location);
 
 protected:

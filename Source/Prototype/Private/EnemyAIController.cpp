@@ -19,12 +19,15 @@ AEnemyAIController::AEnemyAIController()
 }
 
 void AEnemyAIController::MoveToLocation(FVector Location)
-{
+{	
+	bMTLTaskCompleted = false;
 	FVector direction = Location - Enemy->GetActorLocation();
 	direction.Normalize();
 
 	if (Enemy->GetActorLocation() != Location)
-	Enemy->AddActorWorldOffset(direction * Enemy->GetMoveSpeed() * DeltaSeconds);
+		Enemy->AddActorWorldOffset(direction * Enemy->GetMoveSpeed() * DeltaSeconds);
+	else
+		bMTLTaskCompleted = true;
 }
 
 void AEnemyAIController::BeginPlay()
@@ -32,6 +35,7 @@ void AEnemyAIController::BeginPlay()
 	Super::BeginPlay();
 	if (BTree)
 	{
+		bMTLTaskCompleted = true;
 		RunBehaviorTree(BTree);
 		BTreeComp->StartTree(*BTree);
 	}

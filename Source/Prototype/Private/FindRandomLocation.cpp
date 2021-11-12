@@ -22,10 +22,14 @@ EBTNodeResult::Type UFindRandomLocation::ExecuteTask(UBehaviorTreeComponent& own
 	float X = FMath::RandRange(-SearchRadius, SearchRadius);
 	float Y = FMath::RandRange(-SearchRadius, SearchRadius);
 
-	FVector NewLoc = enemyPawn->GetActorLocation() + FVector(X, Y, 0);
+	if (cont->bMTLTaskCompleted)
+	{
+		FVector NewLoc = enemyPawn->GetActorLocation() + FVector(X, Y, 0);
 
-	cont->GetBlackboardComponent()->SetValueAsVector(TEXT("NewLocation"), NewLoc);
+		cont->GetBlackboardComponent()->SetValueAsVector(TEXT("NewLocation"), NewLoc);
 	
-	FinishLatentTask(owner_comp, EBTNodeResult::Succeeded);
-	return EBTNodeResult::Succeeded;
+		FinishLatentTask(owner_comp, EBTNodeResult::Succeeded);
+		return EBTNodeResult::Succeeded;
+	}
+	EBTNodeResult::Failed;
 }
