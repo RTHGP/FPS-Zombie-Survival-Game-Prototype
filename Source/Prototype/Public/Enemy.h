@@ -56,6 +56,9 @@ private:
 	USphereComponent* SphereComp; 
 
 	UPROPERTY(EditDefaultsOnly, Category = "EnemySettings")
+	USphereComponent* SphereComp2;
+
+	UPROPERTY(EditDefaultsOnly, Category = "EnemySettings")
 		float Health = 100.f;
 	
 	UPROPERTY(EditDefaultsOnly, Category = "EnemySettings")

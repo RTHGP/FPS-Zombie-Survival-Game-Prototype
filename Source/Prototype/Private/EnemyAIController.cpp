@@ -34,10 +34,10 @@ void AEnemyAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	DeltaSeconds += DeltaTime;
-	Delay += DeltaTime;
+	/*Delay += DeltaTime;
 
 	if(Delay >1.f)
-	MoveToPlayer();
+	MoveToPlayer();*/
 }
 
 void AEnemyAIController::OnPossess(APawn* pawn)

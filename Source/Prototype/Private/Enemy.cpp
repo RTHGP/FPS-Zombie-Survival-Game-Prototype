@@ -18,6 +18,9 @@ AEnemy::AEnemy()
 	SphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
 	SphereComp->SetupAttachment(MeshComp);
 	SphereComp->SetSphereRadius(100.f);
+	SphereComp2 = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp2"));
+	SphereComp2->SetupAttachment(MeshComp);
+	SphereComp2->SetSphereRadius(1000.f);
 	HDComp = CreateDefaultSubobject<UHealthDamageComponent>(TEXT("HDComp"));
 
 

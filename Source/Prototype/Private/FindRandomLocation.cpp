@@ -19,6 +19,12 @@ EBTNodeResult::Type UFindRandomLocation::ExecuteTask(UBehaviorTreeComponent& own
 	auto const cont = Cast<AEnemyAIController>(owner_comp.GetAIOwner());
 	auto const enemyPawn = cont->GetPawn();
 
+	float X = FMath::RandRange(-1, 1);
+	float Y = FMath::RandRange(-1, 1);
+
+	FVector NewLoc = FVector(X, Y, 0) * SearchRadius;
+
+	//continue
 
 	return EBTNodeResult::Type();
 }
