@@ -26,6 +26,9 @@ protected:
 	void TickTask(UBehaviorTreeComponent& owner_comp, uint8* node_memory, float DeltaTime) override;
 private:
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Settings", meta = (AllowPrivateAccess = true))
+		float MaxTimeToWalk = 2.f;
+
 	float Delay;
 
 	FVector Loc;

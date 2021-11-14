@@ -34,7 +34,7 @@ void UMoveToLocation::TickTask(UBehaviorTreeComponent& owner_comp, uint8* node_m
 {
 	Super::TickTask(owner_comp, node_memory, DeltaTime);
 	Delay += DeltaTime;
-	if (Delay < 2.f)
+	if (Delay < FMath::RandRange(MaxTimeToWalk/2, MaxTimeToWalk))
 		EnemyPawn->AddActorWorldOffset(Direction * EnemyPawn->GetMoveSpeed() * DeltaTime);
 	else
 	{

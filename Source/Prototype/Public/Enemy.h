@@ -81,9 +81,6 @@ private:
 		float RayHeight = 70.f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "EnemySettings")
-		float TraceDistance = 100.f;
-
-	UPROPERTY(EditDefaultsOnly, Category = "EnemySettings")
 		TSubclassOf<AActor> AmmoDrop;
 
 	UFUNCTION()
