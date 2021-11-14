@@ -19,10 +19,6 @@ class PROTOTYPE_API AEnemyAIController : public AAIController
 public:
 	AEnemyAIController();
 
-	bool bMTLTaskCompleted = true;
-
-	void MoveToLocation(FVector Location);
-
 protected:
 
 	virtual void BeginPlay() override;
@@ -50,7 +46,9 @@ private:
 
 	bool bIsJumped; // remove
 
+	FVector Direction;
+
 	AEnemy* Enemy;
 
-	FVector Direction;
+	ASPlayer* MainPlayer;
 };

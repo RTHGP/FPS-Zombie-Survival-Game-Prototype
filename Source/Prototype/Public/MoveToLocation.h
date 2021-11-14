@@ -6,6 +6,7 @@
 #include "BehaviorTree/Tasks/BTTask_BlackboardBase.h"
 #include "MoveToLocation.generated.h"
 
+class AEnemy;
 /**
  * 
  */
@@ -20,6 +21,18 @@ public:
 
 protected:
 		
-	EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& owner_comp, uint8* node_memory);
+	EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& owner_comp, uint8* node_memory) override;
 	
+	void TickTask(UBehaviorTreeComponent& owner_comp, uint8* node_memory, float DeltaTime) override;
+private:
+
+	float Delay;
+
+	FVector Loc;
+
+	FVector Direction;
+
+	FVector EnemyLoc;
+
+	AEnemy* EnemyPawn;
 };

@@ -11,25 +11,35 @@
 UMoveToLocation::UMoveToLocation()
 {
 	NodeName = TEXT("MoveToLocation");
+	bNotifyTick = true;
 }
 
 EBTNodeResult::Type UMoveToLocation::ExecuteTask(UBehaviorTreeComponent& owner_comp, uint8* node_memory)
 {	
+	Super::ExecuteTask(owner_comp, node_memory);
 	auto const cont = Cast<AEnemyAIController>(owner_comp.GetAIOwner());
-	auto const enemyPawn = Cast<AEnemy>(cont->GetPawn());
+	EnemyPawn = Cast<AEnemy>(cont->GetPawn());
 
-	if (cont->bMTLTaskCompleted)
+	Loc = cont->GetBlackboardComponent()->GetValueAsVector(TEXT("NewLocation"));
+	EnemyLoc = EnemyPawn->GetActorLocation();
+
+	Direction = Loc - EnemyLoc;
+	Direction.Normalize();
+	EnemyPawn->SetActorRotation(Direction.Rotation().Quaternion());
+
+	FinishLatentTask(owner_comp, EBTNodeResult::InProgress);
+	return EBTNodeResult::InProgress;
+}
+
+void UMoveToLocation::TickTask(UBehaviorTreeComponent& owner_comp, uint8* node_memory, float DeltaTime)
+{
+	Super::TickTask(owner_comp, node_memory, DeltaTime);
+	Delay += DeltaTime;
+	if (Delay < 2.f)
+		EnemyPawn->AddActorWorldOffset(Direction * EnemyPawn->GetMoveSpeed() * DeltaTime);
+	else
 	{
-		FVector Loc = cont->GetBlackboardComponent()->GetValueAsVector(TEXT("NewLocation"));
-		cont->MoveToLocation(Loc);
-		/*FVector Direction = Loc - enemyPawn->GetActorLocation();
-		Direction.Normalize();*/
-	
-		/*while(enemyPawn->GetActorLocation() != Loc)
-		enemyPawn->AddActorWorldOffset(Direction * enemyPawn->GetMoveSpeed() * GetWorld()->GetDeltaSeconds());*/
-
+		Delay = 0.f;
 		FinishLatentTask(owner_comp, EBTNodeResult::Succeeded);
-		return EBTNodeResult::Succeeded;
 	}
-	return EBTNodeResult::Failed;
 }

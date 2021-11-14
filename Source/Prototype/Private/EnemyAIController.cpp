@@ -18,24 +18,11 @@ AEnemyAIController::AEnemyAIController()
 	BTreeComp = CreateDefaultSubobject<UBehaviorTreeComponent>(TEXT("BehaviorTreeComp"));
 }
 
-void AEnemyAIController::MoveToLocation(FVector Location)
-{	
-	bMTLTaskCompleted = false;
-	FVector direction = Location - Enemy->GetActorLocation();
-	direction.Normalize();
-
-	if (Enemy->GetActorLocation() != Location)
-		Enemy->AddActorWorldOffset(direction * Enemy->GetMoveSpeed() * DeltaSeconds);
-	else
-		bMTLTaskCompleted = true;
-}
-
 void AEnemyAIController::BeginPlay()
 {
 	Super::BeginPlay();
 	if (BTree)
 	{
-		bMTLTaskCompleted = true;
 		RunBehaviorTree(BTree);
 		BTreeComp->StartTree(*BTree);
 	}
@@ -64,13 +51,11 @@ void AEnemyAIController::OnPossess(APawn* pawn)
 		Blackboard->InitializeBlackboard(*BTree->BlackboardAsset);
 	}
 	Enemy = Cast<AEnemy>(GetPawn());
-	if (Enemy)
-		UE_LOG(LogTemp, Warning, TEXT("ENemy Work!"));
+	MainPlayer = Cast<ASPlayer>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }
 
 void AEnemyAIController::MoveToPlayer()
 {	
-	ASPlayer* MainPlayer = Cast<ASPlayer>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	if (Enemy && MainPlayer)
 	{	
 		FVector EnemyPosition = Enemy->GetActorLocation();
