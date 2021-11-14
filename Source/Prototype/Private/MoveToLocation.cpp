@@ -27,7 +27,6 @@ EBTNodeResult::Type UMoveToLocation::ExecuteTask(UBehaviorTreeComponent& owner_c
 	Direction.Normalize();
 	EnemyPawn->SetActorRotation(Direction.Rotation().Quaternion());
 
-	FinishLatentTask(owner_comp, EBTNodeResult::InProgress);
 	return EBTNodeResult::InProgress;
 }
 

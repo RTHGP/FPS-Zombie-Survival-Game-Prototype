@@ -19,17 +19,13 @@ EBTNodeResult::Type UFindRandomLocation::ExecuteTask(UBehaviorTreeComponent& own
 	auto const cont = Cast<AEnemyAIController>(owner_comp.GetAIOwner());
 	auto const enemyPawn = cont->GetPawn();
 
-	float X = FMath::RandRange(-SearchRadius, SearchRadius);
-	float Y = FMath::RandRange(-SearchRadius, SearchRadius);
-
-	/*if (cont->bMTLTaskCompleted)
-	{*/
-		FVector NewLoc = enemyPawn->GetActorLocation() + FVector(X, Y, 0);
-
-		cont->GetBlackboardComponent()->SetValueAsVector(TEXT("NewLocation"), NewLoc);
+	float X = FMath::RandRange(-1, 1);
+	float Y = FMath::RandRange(-1, 1);
 	
-		FinishLatentTask(owner_comp, EBTNodeResult::Succeeded);
-		return EBTNodeResult::Succeeded;
-	/*}
-	EBTNodeResult::Failed;*/
+	FVector NewLoc = enemyPawn->GetActorLocation() + FVector(X, Y, 0) * SearchRadius;
+
+	cont->GetBlackboardComponent()->SetValueAsVector(TEXT("NewLocation"), NewLoc);
+	
+	return EBTNodeResult::Succeeded;
+	
 }
