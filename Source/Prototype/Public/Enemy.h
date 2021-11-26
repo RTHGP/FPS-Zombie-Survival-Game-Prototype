@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "Enemy.generated.h"
 
+class UCapsuleComponent;
 class UStaticMeshComponent;
 class USphereComponent;
 class UHealthDamageComponent;
@@ -49,7 +50,12 @@ public:
 
 	void DropAmmo();
 
+	UCapsuleComponent* GetCapsuleComponent();
+
 private:
+	UPROPERTY(EditDefaultsOnly, Category = "EnemySettings")
+		UCapsuleComponent* CapsuleComp;
+
 	UPROPERTY(EditDefaultsOnly, Category = "EnemySettings")
 		UHealthDamageComponent* HDComp;
 
@@ -57,10 +63,7 @@ private:
 		UStaticMeshComponent* MeshComp;
 
 	UPROPERTY(EditDefaultsOnly, Category = "EnemySettings")
-		USphereComponent* SphereComp; // to damage player
-
-	UPROPERTY(EditDefaultsOnly, Category = "EnemySettings")
-		USphereComponent* SphereComp2; // to detect player
+		USphereComponent* SphereComp; // to detect player
 
 	UPROPERTY(EditDefaultsOnly, Category = "EnemySettings")
 		float Health = 100.f;
@@ -69,7 +72,7 @@ private:
 		float PlayerDamageAmount = 20.f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "EnemySettings")
-		float MoveSpeed = 1.f;
+		float MoveSpeed = 10.f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "EnemySettings")
 		float JumpSpeed = 25000.f;
@@ -78,7 +81,7 @@ private:
 		float StopingDistance = 100.f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "EnemySettings")
-		float RayHeight = 70.f;
+		float RayHeight = 70.f; //
 
 	UPROPERTY(EditDefaultsOnly, Category = "EnemySettings")
 		TSubclassOf<AActor> AmmoDrop;

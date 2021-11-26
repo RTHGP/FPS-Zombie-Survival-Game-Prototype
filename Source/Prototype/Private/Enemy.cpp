@@ -3,6 +3,7 @@
 
 #include "Enemy.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Components/SphereComponent.h"
 #include "HealthDamageComponent.h"
 #include "DrawDebugHelpers.h"
@@ -13,14 +14,13 @@ AEnemy::AEnemy()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	CapsuleComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComp"));
+	RootComponent = CapsuleComp;
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComp"));
-	RootComponent = MeshComp;
+	MeshComp->SetupAttachment(CapsuleComp);
 	SphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
-	SphereComp->SetupAttachment(MeshComp);
-	SphereComp->SetSphereRadius(100.f);
-	SphereComp2 = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp2"));
-	SphereComp2->SetupAttachment(MeshComp);
-	SphereComp2->SetSphereRadius(5000.f);
+	SphereComp->SetupAttachment(CapsuleComp);
+	SphereComp->SetSphereRadius(2000.f);
 	HDComp = CreateDefaultSubobject<UHealthDamageComponent>(TEXT("HDComp"));
 
 
@@ -34,11 +34,11 @@ void AEnemy::BeginPlay()
 	bIsNearPlayer = false;
 	bIsStuck = false;
 	bFoundPlayer = false;
-	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::BeginOverlap);
-	SphereComp->OnComponentEndOverlap.AddDynamic(this, &AEnemy::EndOverlap);
+	CapsuleComp->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::BeginOverlap);
+	CapsuleComp->OnComponentEndOverlap.AddDynamic(this, &AEnemy::EndOverlap);
 
-	SphereComp2->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::BeginOverlap2);
-	SphereComp2->OnComponentEndOverlap.AddDynamic(this, &AEnemy::EndOverlap2);
+	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::BeginOverlap2);
+	SphereComp->OnComponentEndOverlap.AddDynamic(this, &AEnemy::EndOverlap2);
 }
 
 // Called every frame
@@ -82,6 +82,11 @@ void AEnemy::DropAmmo()
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 		GetWorld()->SpawnActor<AActor>(AD, GetActorLocation(), FRotator(0), SpawnParams);
 	}
+}
+
+UCapsuleComponent* AEnemy::GetCapsuleComponent()
+{
+	return CapsuleComp;
 }
 
 void AEnemy::BeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

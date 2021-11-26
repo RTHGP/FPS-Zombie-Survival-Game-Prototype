@@ -86,7 +86,7 @@ void AEnemyAIController::MoveToPlayer()
 				Enemy->bIsStuck = false;
 		}
 		
-		if(!Enemy->bIsNearPlayer && !Enemy->bIsStuck)
+		else if(!Enemy->bIsNearPlayer && !Enemy->bIsStuck)
 		{	
 			Direction = PlayerPosition - EnemyPosition;
 			Direction.Normalize();
@@ -96,7 +96,7 @@ void AEnemyAIController::MoveToPlayer()
 			Enemy->SetActorRotation(Direction.Rotation().Quaternion());
 			Enemy->AddActorWorldOffset(Direction * Enemy->GetMoveSpeed() * FApp::GetDeltaTime());
 		}
-		if (Enemy->bIsNearPlayer && DeltaSeconds >= 1.f)
+		else if (Enemy->bIsNearPlayer && DeltaSeconds >= 1.f)
 		{	
 			MainPlayer->DamageSelf(Enemy->GetPlayerDamageAmount());
 			DeltaSeconds = 0.f;

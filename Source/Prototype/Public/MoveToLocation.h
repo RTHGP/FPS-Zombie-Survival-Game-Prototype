@@ -7,6 +7,7 @@
 #include "MoveToLocation.generated.h"
 
 class AEnemy;
+class UCharacterMovementComponent;
 /**
  * 
  */
@@ -31,6 +32,8 @@ private:
 
 	float Delay;
 
+	float Range;
+
 	FVector Loc;
 
 	FVector Direction;
@@ -38,4 +41,6 @@ private:
 	FVector EnemyLoc;
 
 	AEnemy* EnemyPawn;
+
+	void Move(FVector Dir);
 };
