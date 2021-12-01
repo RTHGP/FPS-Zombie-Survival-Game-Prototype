@@ -86,12 +86,14 @@ void AEnemy::DropAmmo()
 
 UCapsuleComponent* AEnemy::GetCapsuleComponent()
 {
-	return CapsuleComp;
+	return CapsuleComp; //
 }
 
 void AEnemy::BeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	auto MainPlayer = Cast<ASPlayer>(OtherActor);
+	bIsStuck = true;
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *OtherActor->GetName());
+	/*auto MainPlayer = Cast<ASPlayer>(OtherActor);
 	if (MainPlayer)
 	{
 		bIsNearPlayer = true;
@@ -100,13 +102,14 @@ void AEnemy::BeginOverlap(class UPrimitiveComponent* HitComp, class AActor* Othe
 	else
 	{
 		bIsStuck = true;
-	}
+	}*/
 }
 
 void AEnemy::EndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if (bIsNearPlayer)
-		bIsNearPlayer = false;
+	bIsStuck = false;
+	/*if (bIsNearPlayer)
+		bIsNearPlayer = false;*/
 }
 
 void AEnemy::BeginOverlap2(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

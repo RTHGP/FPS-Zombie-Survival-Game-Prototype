@@ -38,6 +38,8 @@ private:
 
 	FVector Direction;
 
+	FVector MovementInput;
+
 	FVector EnemyLoc;
 
 	AEnemy* EnemyPawn;

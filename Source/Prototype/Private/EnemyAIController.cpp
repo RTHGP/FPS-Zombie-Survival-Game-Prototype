@@ -24,11 +24,10 @@ void AEnemyAIController::BeginPlay()
 	if (BTree)
 	{
 		RunBehaviorTree(BTree);
-		BTreeComp->StartTree(*BTree);
 	}
-	bFindAngle = true;
-	bIsJumped = false;
-
+	//bFindAngle = true;
+	//bIsJumped = false;
+	
 }
 
 void AEnemyAIController::Tick(float DeltaTime)
@@ -41,6 +40,7 @@ void AEnemyAIController::Tick(float DeltaTime)
 		Enemy->FollowPlayerTime += DeltaTime;
 		MoveToPlayer();
 	}*/
+
 }
 
 void AEnemyAIController::OnPossess(APawn* pawn)

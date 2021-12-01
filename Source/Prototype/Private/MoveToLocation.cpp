@@ -36,8 +36,12 @@ void UMoveToLocation::TickTask(UBehaviorTreeComponent& owner_comp, uint8* node_m
 	Super::TickTask(owner_comp, node_memory, DeltaTime);
 	Delay += DeltaTime;
 	
-	if (Delay < Range)
-		Move(EnemyPawn->GetActorForwardVector());
+	if (Delay < Range && !EnemyPawn->bIsStuck)
+	{
+		MovementInput = EnemyPawn->GetActorLocation() + Direction * EnemyPawn->GetMoveSpeed() * DeltaTime;
+		EnemyPawn->SetActorLocation(MovementInput);
+	}
+		//Move(EnemyPawn->GetActorForwardVector());
 	else
 	{
 		Delay = 0.f;
@@ -47,6 +51,6 @@ void UMoveToLocation::TickTask(UBehaviorTreeComponent& owner_comp, uint8* node_m
 
 void UMoveToLocation::Move(FVector Dir)
 {
-	//EnemyPawn->AddActorWorldOffset(Dir * FApp::GetDeltaTime());
-	EnemyPawn->GetCapsuleComponent()->AddForce(Dir * 1000000);
+	EnemyPawn->AddActorWorldOffset(Dir* EnemyPawn->GetMoveSpeed() * FApp::GetDeltaTime());
+	//EnemyPawn->GetCapsuleComponent()->AddForce(Dir * 800000);
 }
