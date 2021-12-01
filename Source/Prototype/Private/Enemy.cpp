@@ -14,12 +14,12 @@ AEnemy::AEnemy()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	CapsuleComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComp"));
-	RootComponent = CapsuleComp;
+	SComp = CreateDefaultSubobject<USphereComponent>(TEXT("CapsuleComp"));
+	RootComponent = SComp;
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComp"));
-	MeshComp->SetupAttachment(CapsuleComp);
+	MeshComp->SetupAttachment(SComp);
 	SphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
-	SphereComp->SetupAttachment(CapsuleComp);
+	SphereComp->SetupAttachment(SComp);
 	SphereComp->SetSphereRadius(2000.f);
 	HDComp = CreateDefaultSubobject<UHealthDamageComponent>(TEXT("HDComp"));
 
@@ -34,8 +34,8 @@ void AEnemy::BeginPlay()
 	bIsNearPlayer = false;
 	bIsStuck = false;
 	bFoundPlayer = false;
-	CapsuleComp->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::BeginOverlap);
-	CapsuleComp->OnComponentEndOverlap.AddDynamic(this, &AEnemy::EndOverlap);
+	SComp->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::BeginOverlap);
+	SComp->OnComponentEndOverlap.AddDynamic(this, &AEnemy::EndOverlap);
 
 	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::BeginOverlap2);
 	SphereComp->OnComponentEndOverlap.AddDynamic(this, &AEnemy::EndOverlap2);
@@ -84,14 +84,9 @@ void AEnemy::DropAmmo()
 	}
 }
 
-UCapsuleComponent* AEnemy::GetCapsuleComponent()
-{
-	return CapsuleComp; //
-}
-
 void AEnemy::BeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	bIsStuck = true;
+	//bIsStuck = true;
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *OtherActor->GetName());
 	/*auto MainPlayer = Cast<ASPlayer>(OtherActor);
 	if (MainPlayer)
@@ -107,7 +102,7 @@ void AEnemy::BeginOverlap(class UPrimitiveComponent* HitComp, class AActor* Othe
 
 void AEnemy::EndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	bIsStuck = false;
+	//bIsStuck = false;
 	/*if (bIsNearPlayer)
 		bIsNearPlayer = false;*/
 }

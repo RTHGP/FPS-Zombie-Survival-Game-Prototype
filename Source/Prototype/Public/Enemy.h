@@ -50,11 +50,9 @@ public:
 
 	void DropAmmo();
 
-	UCapsuleComponent* GetCapsuleComponent();
-
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "EnemySettings")
-		UCapsuleComponent* CapsuleComp;
+		USphereComponent* SComp;
 
 	UPROPERTY(EditDefaultsOnly, Category = "EnemySettings")
 		UHealthDamageComponent* HDComp;
