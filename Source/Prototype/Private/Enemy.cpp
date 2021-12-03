@@ -14,12 +14,12 @@ AEnemy::AEnemy()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	SComp = CreateDefaultSubobject<USphereComponent>(TEXT("CapsuleComp"));
-	RootComponent = SComp;
+	CapsuleComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComp"));
+	RootComponent = CapsuleComp;
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComp"));
-	MeshComp->SetupAttachment(SComp);
+	MeshComp->SetupAttachment(CapsuleComp);
 	SphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
-	SphereComp->SetupAttachment(SComp);
+	SphereComp->SetupAttachment(CapsuleComp);
 	SphereComp->SetSphereRadius(2000.f);
 	HDComp = CreateDefaultSubobject<UHealthDamageComponent>(TEXT("HDComp"));
 
@@ -34,8 +34,8 @@ void AEnemy::BeginPlay()
 	bIsNearPlayer = false;
 	bIsStuck = false;
 	bFoundPlayer = false;
-	SComp->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::BeginOverlap);
-	SComp->OnComponentEndOverlap.AddDynamic(this, &AEnemy::EndOverlap);
+	CapsuleComp->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::BeginOverlap);
+	CapsuleComp->OnComponentEndOverlap.AddDynamic(this, &AEnemy::EndOverlap);
 
 	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::BeginOverlap2);
 	SphereComp->OnComponentEndOverlap.AddDynamic(this, &AEnemy::EndOverlap2);

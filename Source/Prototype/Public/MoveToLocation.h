@@ -7,7 +7,6 @@
 #include "MoveToLocation.generated.h"
 
 class AEnemy;
-class UCharacterMovementComponent;
 /**
  * 
  */
@@ -43,6 +42,4 @@ private:
 	FVector EnemyLoc;
 
 	AEnemy* EnemyPawn;
-
-	void Move(FVector Dir);
 };

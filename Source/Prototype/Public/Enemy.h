@@ -52,7 +52,7 @@ public:
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "EnemySettings")
-		USphereComponent* SComp;
+		UCapsuleComponent* CapsuleComp;
 
 	UPROPERTY(EditDefaultsOnly, Category = "EnemySettings")
 		UHealthDamageComponent* HDComp;

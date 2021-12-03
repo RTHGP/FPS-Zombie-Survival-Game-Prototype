@@ -21,10 +21,7 @@ AEnemyAIController::AEnemyAIController()
 void AEnemyAIController::BeginPlay()
 {
 	Super::BeginPlay();
-	if (BTree)
-	{
-		RunBehaviorTree(BTree);
-	}
+	
 	//bFindAngle = true;
 	//bIsJumped = false;
 	
@@ -46,12 +43,16 @@ void AEnemyAIController::Tick(float DeltaTime)
 void AEnemyAIController::OnPossess(APawn* pawn)
 {	
 	Super::OnPossess(pawn);
+	Enemy = Cast<AEnemy>(GetPawn());
+	MainPlayer = Cast<ASPlayer>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	if (BTree)
+	{
+		RunBehaviorTree(BTree);
+	}
 	if (Blackboard)
 	{
 		Blackboard->InitializeBlackboard(*BTree->BlackboardAsset);
 	}
-	Enemy = Cast<AEnemy>(GetPawn());
-	MainPlayer = Cast<ASPlayer>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }
 
 void AEnemyAIController::MoveToPlayer()
@@ -102,4 +103,9 @@ void AEnemyAIController::MoveToPlayer()
 			DeltaSeconds = 0.f;
 		}
 	}
+}
+
+ASPlayer* AEnemyAIController::GetMainPlayer()
+{
+	return MainPlayer;
 }

@@ -51,4 +51,7 @@ private:
 	AEnemy* Enemy;
 
 	ASPlayer* MainPlayer;
+
+public:
+	ASPlayer* GetMainPlayer();
 };
