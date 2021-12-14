@@ -54,12 +54,6 @@ void AWeapon::Fire()
 		
 		if (GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECollisionChannel::ECC_Camera))
 		{	
-			/*UE_LOG(LogTemp, Warning, TEXT("%s"), *Hit.GetActor()->GetName());
-			auto Enemy = Cast<AEnemy>(Hit.GetActor());
-			if (Enemy)
-			{
-				Enemy->DamageSelf(EnemyDamageAmount);
-			}*/
 			BulletHit = Hit;
 			Rot = (Hit.Location - SKMesh->GetSocketLocation(FName("S_Muzzle"))).Rotation();
 			DrawDebugLine(GetWorld(), Start, Hit.Location, FColor::Blue, false, 2.f, 0, 2.f);

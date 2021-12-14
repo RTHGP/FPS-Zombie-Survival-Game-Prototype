@@ -21,6 +21,7 @@ EBTNodeResult::Type UMoveToLocation::ExecuteTask(UBehaviorTreeComponent& owner_c
 	EnemyPawn = Cast<AEnemy>(cont->GetPawn());
 
 	Loc = cont->GetBlackboardComponent()->GetValueAsVector(TEXT("NewLocation"));
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *Loc.ToString());
 	EnemyLoc = EnemyPawn->GetActorLocation();
 
 	Direction = Loc - EnemyLoc;
@@ -35,10 +36,8 @@ void UMoveToLocation::TickTask(UBehaviorTreeComponent& owner_comp, uint8* node_m
 {
 	Super::TickTask(owner_comp, node_memory, DeltaTime);
 	Delay += DeltaTime;
-	//UE_LOG(LogTemp, Warning, TEXT("%f , %f"), Delay, Range);
-	if (Delay <= Range)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Hello"));
+	if (Delay < Range)
+	{	
 		EnemyPawn->AddActorWorldOffset(Direction* EnemyPawn->GetMoveSpeed() * DeltaTime, true);
 	}
 	else

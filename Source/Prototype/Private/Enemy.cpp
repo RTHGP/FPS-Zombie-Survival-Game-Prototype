@@ -86,9 +86,7 @@ void AEnemy::DropAmmo()
 
 void AEnemy::BeginOverlap(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	//bIsStuck = true;
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *OtherActor->GetName());
-	/*auto MainPlayer = Cast<ASPlayer>(OtherActor);
+	auto MainPlayer = Cast<ASPlayer>(OtherActor);
 	if (MainPlayer)
 	{
 		bIsNearPlayer = true;
@@ -96,15 +94,16 @@ void AEnemy::BeginOverlap(class UPrimitiveComponent* HitComp, class AActor* Othe
 	}
 	else
 	{
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *OtherActor->GetName());
 		bIsStuck = true;
-	}*/
+	}
 }
 
 void AEnemy::EndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	//bIsStuck = false;
-	/*if (bIsNearPlayer)
-		bIsNearPlayer = false;*/
+	bIsStuck = false;
+	if (bIsNearPlayer)
+		bIsNearPlayer = false;
 }
 
 void AEnemy::BeginOverlap2(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -118,9 +117,5 @@ void AEnemy::BeginOverlap2(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 
 void AEnemy::EndOverlap2(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {	
-	if (FollowPlayerTime >= 5.f)
-	{
-		bFoundPlayer = false;
-		FollowPlayerTime = 0.f;
-	}
+	bFoundPlayer = false;
 }

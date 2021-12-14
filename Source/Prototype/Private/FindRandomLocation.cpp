@@ -23,7 +23,6 @@ EBTNodeResult::Type UFindRandomLocation::ExecuteTask(UBehaviorTreeComponent& own
 	float Y = FMath::RandRange(-1, 1);
 	
 	FVector NewLoc = enemyPawn->GetActorLocation() + FVector(X, Y, 0) * SearchRadius;
-
 	cont->GetBlackboardComponent()->SetValueAsVector(TEXT("NewLocation"), NewLoc);
 	
 	return EBTNodeResult::Succeeded;

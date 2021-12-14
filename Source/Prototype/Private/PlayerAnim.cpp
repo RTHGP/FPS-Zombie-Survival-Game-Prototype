@@ -16,7 +16,6 @@ void UPlayerAnim::NativeBeginPlay()
 
 	if (PlayerCharacter)
 	{	
-		UE_LOG(LogTemp, Warning, TEXT("PlayerWork!"));
 		Alpha = 0.f;
 		IsADS = 0.f;
 		IsInterp = false;;
@@ -48,12 +47,6 @@ void UPlayerAnim::InterpAlpha()
 void UPlayerAnim::CastWeapon()
 {
 	Weapon = Cast<AWeapon>(PlayerCharacter->GetPlayerWeapon());
-	if (Weapon)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Work!"));
-	}
-	else
-		UE_LOG(LogTemp, Warning, TEXT("NotWork!"));
 }
 
 void UPlayerAnim::GetRelativeHandTransform()

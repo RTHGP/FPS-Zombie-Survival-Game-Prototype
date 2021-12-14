@@ -53,5 +53,5 @@ private:
 	ASPlayer* MainPlayer;
 
 public:
-	ASPlayer* GetMainPlayer();
+	FVector GetMainPlayerLocation();
 };

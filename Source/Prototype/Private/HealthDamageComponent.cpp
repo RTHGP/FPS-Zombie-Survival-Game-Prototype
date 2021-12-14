@@ -30,7 +30,6 @@ void UHealthDamageComponent::BeginPlay()
 	{
 		Gm = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 		bEnemyOwner = true;
-		//UE_LOG(LogTemp, Warning, TEXT("Begin play work!"));
 	}
 }
 
@@ -42,8 +41,7 @@ void UHealthDamageComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	// ...
 	if (bIsDamaged)
 	{	
-		//UE_LOG(LogTemp, Warning, TEXT("work!"));
-		RegenHealthDelay += DeltaTime;
+		RegenHealthDelay +=DeltaTime;
 		HealthRegenTimer += DeltaTime;
 		if (HealthRegenTimer > 1.f && RegenHealthDelay >= 10.f)
 		{
@@ -59,6 +57,7 @@ void UHealthDamageComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 void UHealthDamageComponent::Damage(float DamageAmount)
 {
 	Health -= DamageAmount;
+	UE_LOG(LogTemp, Warning, TEXT("Player Health:%f"), Health);
 	if (!IsEnemy)
 	{
 		bIsDamaged = true;

@@ -21,8 +21,9 @@ AEnemyAIController::AEnemyAIController()
 void AEnemyAIController::BeginPlay()
 {
 	Super::BeginPlay();
+
 	
-	//bFindAngle = true;
+	bFindAngle = true;
 	//bIsJumped = false;
 	
 }
@@ -30,22 +31,33 @@ void AEnemyAIController::BeginPlay()
 void AEnemyAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	DeltaSeconds = DeltaTime;
+	DeltaSeconds += DeltaTime;
 	
-	/*if (Enemy->bFoundPlayer)
-	{
-		Enemy->FollowPlayerTime += DeltaTime;
-		MoveToPlayer();
-	}*/
+	if (Enemy)
+	{	
+		if (Enemy->bFoundPlayer)
+		{
+			if (BBoard)
+				GetBlackboardComponent()->SetValueAsBool(TEXT("FoundPlayer"), Enemy->bFoundPlayer); //enemy will chase player
+
+			MoveToPlayer();
+		}
+		else
+		{
+			if (BBoard)
+				GetBlackboardComponent()->SetValueAsBool(TEXT("FoundPlayer"), Enemy->bFoundPlayer); //enemy will roam around
+		}
+	}
 
 }
 
 void AEnemyAIController::OnPossess(APawn* pawn)
 {	
 	Super::OnPossess(pawn);
-	Enemy = Cast<AEnemy>(GetPawn());
+
 	MainPlayer = Cast<ASPlayer>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	if (BTree)
+	Enemy = Cast<AEnemy>(GetPawn());
+	if (BTree && MainPlayer)
 	{
 		RunBehaviorTree(BTree);
 	}
@@ -103,9 +115,4 @@ void AEnemyAIController::MoveToPlayer()
 			DeltaSeconds = 0.f;
 		}
 	}
-}
-
-ASPlayer* AEnemyAIController::GetMainPlayer()
-{
-	return MainPlayer;
 }

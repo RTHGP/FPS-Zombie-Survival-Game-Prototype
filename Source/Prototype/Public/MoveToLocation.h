@@ -41,5 +41,7 @@ private:
 
 	FVector EnemyLoc;
 
+	FVector PlayerLoc;
+
 	AEnemy* EnemyPawn;
 };
